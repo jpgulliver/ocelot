@@ -40,7 +40,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
 
     <title>Signin Template for Bootstrap</title>
 
@@ -58,8 +57,8 @@
 
       <form class="form-signin" method="POST">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="text" name="username" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
         <div class="checkbox">
@@ -76,9 +75,5 @@
 	  <?php endif; ?>
 
     </div> <!-- /container -->
-
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
