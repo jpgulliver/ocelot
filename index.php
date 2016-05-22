@@ -8,22 +8,26 @@
       $myusername = mysqli_real_escape_string($db,$_POST['username']);
       $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
       
-      $sql = "SELECT id FROM admin WHERE username = '$myusername' and passcode = '$mypassword'";
+      $sql = "SELECT idusers FROM users WHERE username = '$myusername' and password = $mypassword";
       $result = mysqli_query($db,$sql);
+	  
+	  if (!$result) {
+		 $error = "Your Login Name or Password is invalid";
+	  }
+	  
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      $active = $row['active'];
       
       $count = mysqli_num_rows($result);
       
       // If result matched $myusername and $mypassword, table row must be 1 row
 		
       if($count == 1) {
-         session_register("myusername");
          $_SESSION['login_user'] = $myusername;
          
          header("location: welcome.php");
       }else {
          $error = "Your Login Name or Password is invalid";
+		 $loginFailed = true;
       }
    }
 ?>
@@ -51,12 +55,12 @@
 
     <div class="container">
 
-      <form class="form-signin" method="GET">
+      <form class="form-signin" method="POST">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <input type="username" name="username" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Remember me
@@ -64,6 +68,11 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
+	  <?php if (isset($loginFailed)): ?>
+	    <div class="alert alert-danger">
+          <strong>Error: </strong> The username or password you entered is incorrect.
+        </div>
+	  <?php endif; ?>
 
     </div> <!-- /container -->
 
