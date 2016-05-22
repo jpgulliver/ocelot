@@ -1,5 +1,5 @@
 <?php
-   define('DB_SERVER', 'ocelot.cfxx0yyzf2du.us-west-2.rds.amazonaws.com');
+   define('DB_SERVER', 'oce.cfxx0yyzf2du.us-west-2.rds.amazonaws.com');
    define('DB_USERNAME', 'admin');
    define('DB_PASSWORD', 'coatolivetap1!');
    define('DB_DATABASE', 'ocelotDB');
