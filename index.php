@@ -25,7 +25,7 @@
       if($count == 1) {
          $_SESSION['login_user'] = $myusername;
          
-         header("location: welcome.php");
+         header("location: app/index.html");
       }else {
          $error = "Your Login Name or Password is invalid";
 		 $loginFailed = true;
