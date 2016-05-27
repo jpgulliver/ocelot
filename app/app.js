@@ -1,14 +1,11 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
-  'ngRoute',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
-]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-  $locationProvider.hashPrefix('!');
+var myApp = angular.module('myApp', [])
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+// var teamsModel = [["bob", "john", "smith"], ["tom"], ["circle", "triangle"]];
+var teamsModel = [{name:"bob"}, {name:"john"}, {name:"smith"}];
+
+myApp.controller("TeamSideBarController", function() {
+	this.teams = teamsModel;
+});
