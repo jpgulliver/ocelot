@@ -16,12 +16,16 @@
 
     <!-- Custom styles for this template -->
     <link href="assets/css/dashboard.css" rel="stylesheet">
+	
+	<script src="assets/libs/jquery.min.js"></script>
 
   </head>
 
-  <body ng-app="myApp">
+  <body ng-app="ocelotApp">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+	<div ui-view></div>
+  
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -64,18 +68,18 @@
         </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.min.js"></script>
 	
 	<script src="assets/libs/bower_components/angular/angular.js"></script>
     <script src="assets/libs/bower_components/angular-route/angular-route.js"></script>
-    <script src="app/app.js"></script>
-    <script src="assets/libs/components/version/version.js"></script>
-    <script src="assets/libs/components/version/version-directive.js"></script>
-    <script src="assets/libs/components/version/interpolate-filter.js"></script>
+	<script src="assets/libs/angular-ui-router.min.js"></script>
+    <script src="app/app.module.js"></script>
+	<script src="app/app.routes.js"></script>
+	<script src="app/dash/DashSideBarCtrl.js"></script>
   </body>
 </html>
