@@ -1,4 +1,4 @@
-angular.module('ocelot') 
+angular.module('ocelotApp') 
 .service('AuthService', function($q, $http) {
   var LOCAL_TOKEN_KEY = 'yourTokenKey';
   var username = '';
@@ -36,11 +36,14 @@ angular.module('ocelot')
   }
  
   var login = function(name, pw) {
-	var data = {username: name, password: pw};
+	var data = $.param({username: name, password: pw});
 	
-    return return $http.post('php/login.php', data)
+	$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+	
+    return $http.post('php/login.php', data)
 		.then(function(response) {
-			if (typeof response.data === 'object') {
+			if (response.data === 'login successful') {
+				storeUserCredentials(name + '.yourServerToken');
 				return response.data;
 			} else {
 				// invalid response
@@ -68,6 +71,7 @@ angular.module('ocelot')
   };
 });
 
+angular.module('ocelotApp')
 .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
   return {
     responseError: function (response) {

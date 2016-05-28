@@ -1,16 +1,17 @@
 'use strict';
 
 angular.module('ocelotApp')
-.controller('LoginCtrl', function($scope, $state, AuthService) {
+.controller('LoginCtrl', ['$scope', '$state', 'AuthService', function($scope, $state, AuthService) {
   $scope.data = {};
   $scope.loginError = false;
   
+  
   $scope.login = function(data) {
     AuthService.login(data.username, data.password).then(function(authenticated) {
-      $state.go('dash', {}, {reload: true});
+      $state.go('dash');
       $scope.setCurrentUsername(data.username);
     }, function(err) {
-      loginError = true;
+      $scope.loginError = true;
     });
   };
-})
+}]);
