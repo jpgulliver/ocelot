@@ -19,7 +19,8 @@ angular.module('ocelotApp')
   }
  
   function useCredentials(token) {
-    username = token.data.userName;
+	var tokenPayload = jwtHelper.decodeToken(token);
+    username = tokenPayload.data.userName;
     isAuthenticated = true;
     authToken = token;
  
@@ -44,7 +45,6 @@ angular.module('ocelotApp')
 		.then(function(response) {
 			if (response.data != 'login failed') {
 				storeUserCredentials(response.data.jwt);
-				var tokenPayload = jwtHelper.decodeToken(response.data.jwt);
 				return response.data;
 			} else {
 				// invalid response

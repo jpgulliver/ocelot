@@ -31,10 +31,11 @@
           </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login(data)">Sign in</button>
+		
+		<div id="badlogin" ng-show="loginError" class="alert alert-danger">
+			<strong>Error: </strong> The username or password you entered is incorrect.
+		</div>
       </form>
-	  <div id="badlogin" ng-show="loginError" class="alert alert-danger">
-        <strong>Error: </strong> The username or password you entered is incorrect.
-      </div>
     </div>
   </body>
 </html>
