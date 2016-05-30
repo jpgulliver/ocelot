@@ -9,7 +9,6 @@ angular.module('ocelotApp')
   $scope.login = function(data) {
     AuthService.login(data.username, data.password).then(function(authenticated) {
       $state.go('dash');
-      $scope.setCurrentUsername(data.username);
     }, function(err) {
       $scope.loginError = true;
     });

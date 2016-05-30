@@ -1,5 +1,5 @@
 angular.module('ocelotApp') 
-.service('AuthService', function($q, $http) {
+.service('AuthService', function($q, $http, jwtHelper) {
   var LOCAL_TOKEN_KEY = 'yourTokenKey';
   var username = '';
   var isAuthenticated = false;
@@ -19,7 +19,7 @@ angular.module('ocelotApp')
   }
  
   function useCredentials(token) {
-    username = token.split('.')[0];
+    username = token.data.userName;
     isAuthenticated = true;
     authToken = token;
  
@@ -40,10 +40,11 @@ angular.module('ocelotApp')
 	
 	$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	
-    return $http.post('php/login.php', data)
+    return $http.post('api/login.php', data)
 		.then(function(response) {
-			if (response.data === 'login successful') {
-				storeUserCredentials(name + '.yourServerToken');
+			if (response.data != 'login failed') {
+				storeUserCredentials(response.data.jwt);
+				var tokenPayload = jwtHelper.decodeToken(response.data.jwt);
 				return response.data;
 			} else {
 				// invalid response

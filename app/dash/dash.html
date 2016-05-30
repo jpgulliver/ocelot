@@ -27,7 +27,7 @@
   <div class="row">
 	<div class="col-sm-3 col-md-2 sidebar">
 	  <ul class="nav nav-sidebar" ng-controller="DashSideBarCtrl as teamSideBarCtrl">
-		<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+		<li class="active" ng-click="teamSideBarCtrl.logout()"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 		<li ng-repeat="team in teamSideBarCtrl.teams"><a href="#">{{team.name}}</li>
 	  </ul>
 	  </ul>
