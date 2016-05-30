@@ -8,21 +8,20 @@
       // username and password sent from form 
 	  
       $username = mysqli_real_escape_string($db,$_POST['username']);
-      $password = mysqli_real_escape_string($db,$_POST['password']); 
+      $password = mysqli_real_escape_string($db,$_POST['password']);
+	  $email = mysqli_real_escape_string($db,$_POST['email']); 
 	  
-	  //$hash = password_hash($password, PASSWORD_DEFAULT);
+	  $hash = password_hash($password, PASSWORD_DEFAULT);
       
-      $sql = "SELECT * FROM users WHERE username = '$username'";
+      $sql = "INSERT INTO users (username, password, email, validated) VALUES ('$username', '$hash', '$email', '0');";
       $result = mysqli_query($db,$sql);
+	  $userID = mysqli_insert_id($db);
 	  
-      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      
-      $count = mysqli_num_rows($result);
-     
-      // If result matched $username and $password, table row must be 1 row
+	  var_dump($result);
+	  var_dump($sql);
 		
-      if($count == 1 && password_verify($password, $row['password'])) {
-		 $token = new Token($row["usersID"], $username);
+      if($result) {
+		 $token = new Token($userID, $username);
          $jwt = JWT::encode(
           $token->data,//Data to be encoded in the JWT
           SECRET_KEY, // The signing key
@@ -32,7 +31,7 @@
          echo json_encode($unencodedArray);
       }else {
          $error = "Your Login Name or Password is invalid";
-		 echo "login failed";
+		 echo "signup failed";
       }
    }
 ?>

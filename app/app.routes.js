@@ -4,7 +4,14 @@ angular.module("ocelotApp")
   .state('login', {
     url: '/login',
     templateUrl: 'app/login/login.html',
-    controller: 'LoginCtrl'
+    controller: 'LoginCtrl',
+	controllerUrl: 'app/login/LoginCtrl.js'
+  })
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'app/signup/signup.html',
+    controller: 'SignupCtrl',
+	controllerUrl: 'app/login/SignupCtrl.js'
   })
   .state('dash', {
     url: '/dash',

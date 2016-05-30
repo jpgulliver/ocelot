@@ -19,7 +19,14 @@ angular.module('ocelotApp')
   }
  
   function useCredentials(token) {
-	var tokenPayload = jwtHelper.decodeToken(token);
+	var tokenPayload;
+	try {
+		tokenPayload = jwtHelper.decodeToken(token);
+	} catch ($e) {
+		destroyUserCredentials();
+		return;
+	}
+	
     username = tokenPayload.data.userName;
     isAuthenticated = true;
     authToken = token;
@@ -56,6 +63,27 @@ angular.module('ocelotApp')
 			return $q.reject(response.data);
 		});
   };
+  
+  var signup = function(name, pw, em) {
+	var data = $.param({username: name, password: pw, email: em});
+	
+	$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+	
+    return $http.post('api/signup.php', data)
+		.then(function(response) {
+			if (response.data != 'signup failed') {
+				storeUserCredentials(response.data.jwt);
+				return response.data;
+			} else {
+				// invalid response
+				return $q.reject(response.data);
+			}
+
+		}, function(response) {
+			// something went wrong
+			return $q.reject(response.data);
+		});
+  };
  
   var logout = function() {
     destroyUserCredentials();
@@ -66,6 +94,7 @@ angular.module('ocelotApp')
   return {
     login: login,
     logout: logout,
+	signup: signup,
     isAuthenticated: function() {return isAuthenticated;},
     username: function() {return username;},
     role: function() {return role;}

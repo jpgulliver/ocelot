@@ -1,0 +1,10 @@
+<link href="assets/css/signup.css" rel="stylesheet">
+<form class="form-signup" ng-controller="SignupCtrl">
+	<h2 class="form-signin-heading">Please sign up</h2>
+	<input class="form-control" ng-model="data.username" name="username" placeholder="Username" type="text" required autofocus />
+	<input class="form-control" ng-model="data.email" name="email" placeholder="Your Email" type="email" />
+	<input class="form-control" ng-model="data.password" name="password" placeholder="Password" type="password" />
+	<input class="form-control" ng-model="data.passwordCheck" name="reenterPassword" placeholder="Reenter Password" type="password" />
+	<label class="form-label">Already have an account? Sign in <a ui-sref="login">here</a>.</label>
+	<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="signup(data)">Sign up</button>
+</form>
