@@ -1,0 +1,24 @@
+<link href="assets/css/signup.css" rel="stylesheet">
+<form class="form-signup" name="signupForm" ng-controller="SignupCtrl" ng-submit="signup(data)">
+	<h2 class="form-signin-heading">Please sign up</h2>
+	<div class="form-group" ng-class="{ 'has-error' : signupForm.username.$error.alreadyExists}">
+		<input class="form-control" ng-model="data.username" name="username" placeholder="Username" type="text" required autofocus ui-validate-async="{alreadyExists: 'checkUsername($value)'}" />
+		<p class="help-block" ng-show="signupForm.username.$error.alreadyExists">Username is not available.</p>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : signupForm.email.$error.email || signupForm.email.$error.alreadyExists}">
+		<input class="form-control" ng-model="data.email" name="email" placeholder="Your Email" type="email" ui-validate-async="{alreadyExists: 'checkEmail($value)'}"/>
+		<p class="help-block" ng-show="signupForm.email.$error.email">Enter a valid email.</p>
+		<p class="help-block" ng-show="signupForm.email.$error.alreadyExists">Email is already used.</p>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : signupForm.password.$error.minlength }">
+		<input class="form-control" ng-model="data.password" name="password" placeholder="Password" type="password" ng-minlength="8"/>
+		<p class="help-block" ng-show="signupForm.password.$error.minlength">Minimum password length is 8 characters.</p>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : signupForm.confirmPassword.$error.validator && !signupForm.password.$error.minlength}">
+		<input class="form-control" ng-model="data.confirmPassword" name="confirmPassword" placeholder="Confirm Password" type="password" ui-validate=" '$value==data.password' "
+                        ui-validate-watch=" 'password' "/>
+		<p class="help-block" ng-show="signupForm.confirmPassword.$error.validator && !signupForm.password.$error.minlength">Passwords do not match.</p>
+	</div>
+	<label class="form-label">Already have an account? Sign in <a ui-sref="login">here</a>.</label>
+	<button class="btn btn-lg btn-primary btn-block" ng-disabled="signupForm.$invalid" type="submit">Sign up</button>
+</form>
