@@ -21,7 +21,7 @@
      
       // If result matched $username and $password, table row must be 1 row
 		
-      if($count == 1 && password_verify($password, $row['password'])) {
+      if($count == 1 && password_verify(base64_encode(hash('sha256', $password, true)), $row['password'])) {
 		 $token = new Token($row["usersID"], $username);
          $jwt = JWT::encode(
           $token->data,//Data to be encoded in the JWT
