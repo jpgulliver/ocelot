@@ -1,0 +1,21 @@
+<div class="container">
+
+  <form class="form-signin" ng-controller="LoginCtrl" ng-submit="login(data)">
+	<h2 class="form-signin-heading">Please sign in</h2>
+	<label for="inputUsername" class="sr-only">Username</label>
+	<input type="text" ng-model="data.username" class="form-control" placeholder="Username" required autofocus>
+	<label for="inputPassword" class="sr-only">Password</label>
+	<input type="password" ng-model="data.password" class="form-control" placeholder="Password" required>
+	<div class="checkbox">
+	  <label>
+		<input type="checkbox" value="remember-me"> Remember me
+	  </label>
+	  <a class="pull-right" ui-sref="signup">Create an account</a>
+	</div>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	
+	<div id="badlogin" ng-show="loginError" class="alert alert-danger">
+		<strong>Error: </strong> The username or password you entered is incorrect.
+	</div>
+  </form>
+</div>
