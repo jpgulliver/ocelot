@@ -48,7 +48,7 @@ angular.module('ocelotApp')
 		
 		$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 		
-		return $http.post('api/login', data)
+		return $http.post('api/signin', data)
 		.then(function(response) {
 			if (response.data != 'login failed') {
 				storeUserCredentials(response.data.jwt);
