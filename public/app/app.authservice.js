@@ -69,7 +69,7 @@ angular.module('ocelotApp')
 		
 		$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 		
-		return $http.post('api/signup.php', data)
+		return $http.post('api/signup', data)
 		.then(function(response) {
 			if (response.data != 'signup failed') {
 				storeUserCredentials(response.data.jwt);
@@ -86,7 +86,7 @@ angular.module('ocelotApp')
 	};
 
 	var checkEmail = function(v) {
-		return $http.get('api/signup.php', {params: {type: 'email', value: v}})
+		return $http.get('api/signup', {params: {type: 'email', value: v}})
 		.then(function(response) {
 			if (response.data == 'ok') {
 				return $q.resolve();
@@ -99,7 +99,7 @@ angular.module('ocelotApp')
 	};
 	
 	var checkUsername = function(v) {
-		return $http.get('api/signup.php', {params: {type: 'username', value: v}})
+		return $http.get('api/signup', {params: {type: 'username', value: v}})
 		.then(function(response) {
 			if (response.data == 'ok') {
 				return $q.resolve();
