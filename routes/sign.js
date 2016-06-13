@@ -33,7 +33,7 @@ router.post('/signup', function(req, res, next) {
 		} else {
 			// Tries to insert into table
 			pool.getConnection(function(err, connection){
-				connection.query("INSERT INTO users (username, password, email, validated) VALUES (?, ?, ?, 0);",
+				connection.query("INSERT INTO user (username, password, email, validated) VALUES (?, ?, ?, 0);",
 						[req.body.username, hash, req.body.email], function(err, rows){
 					// Failed to insert
 					if(err){
@@ -55,9 +55,9 @@ router.get('/signup', function(req, res, next) {
 	// Create appropriate query
 	var query;
 	if(req.query.type == "username") {
-		query = "SELECT * FROM users WHERE username = ?;";
+		query = "SELECT * FROM user WHERE username = ?;";
 	} else {
-		query = "SELECT * FROM users WHERE email = ?;";
+		query = "SELECT * FROM user WHERE email = ?;";
 	}
 	pool.getConnection(function(err, connection){
 		connection.query(query, [req.query.value], function(err, rows){
@@ -80,7 +80,7 @@ router.get('/signup', function(req, res, next) {
 /* POST signin. */
 router.post('/signin', function(req, res, next) {
 	pool.getConnection(function(err, connection){
-		connection.query("SELECT * FROM users WHERE username = ?", [req.body.username],  function(err, rows){
+		connection.query("SELECT * FROM user WHERE username = ?", [req.body.username],  function(err, rows){
 			// Signin error from select from database
 			if(err){
 				console.log(err);
@@ -96,7 +96,7 @@ router.post('/signin', function(req, res, next) {
 						} else {
 							// Sends back jwt if correct, else sends failed.
 							if(result) {
-								res.send(jwtGen(rows[0].userId, req.body.username));
+								res.send(jwtGen(rows[0].id, req.body.username));
 							} else {
 								res.send('login failed');
 							}
