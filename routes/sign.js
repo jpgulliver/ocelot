@@ -19,7 +19,7 @@ var jwtGen = function(userIdVar, userNameVar) {
 		}
 	};
 	var token = jwt.sign(payload, secretKey, {expiresIn: '365d', notBefore: '0'});
-	return {jwt: token};
+	return token;
 }
 
 /* POST signup. */
@@ -30,7 +30,7 @@ router.post('/signup', function(req, res, next) {
 		// Error when hashing.
 		if(err){
 			console.log(err);
-			res.send('signup failed');
+			res.send({success: false, message: 'Signup failed.'});
 		} else {
 			// Tries to insert into table
 			pool.getConnection(function(err, connection){
@@ -39,10 +39,10 @@ router.post('/signup', function(req, res, next) {
 					// Failed to insert
 					if(err){
 						console.log(err);
-						res.send('signup failed');
+						res.send({success: false, message: 'Signup failed.'});
 					} else {
 						// Send back authenticated jwt tokent
-						res.send(jwtGen(rows.insertId, req.body.username));
+						res.send({success: true, jwt: jwtGen(rows.insertId, req.body.username)});
 					}
 				});
 				connection.release();
@@ -65,13 +65,13 @@ router.get('/signup', function(req, res, next) {
 		connection.query(query, [req.query.value], function(err, rows){
 			// Select failed.
 			if(err){
-				res.send('selection failed');
+				res.send({success: false, available: false});
 			} else {
 				// Check if a row was found.
 				if(rows.length >= 1) {
-					res.send('taken');
+					res.send({success: true, available: false});
 				} else {
-					res.send('ok');
+					res.send({success: true, available: true});
 				}
 			}
 		});
@@ -88,19 +88,19 @@ router.post('/signin', function(req, res, next) {
 				console.log(err);
 			} else {
 				if(rows.length <= 0) {
-					res.send('login failed');
+					res.send({success: false, message: 'Login failed.'});
 				} else {
 					// Compares password and hash asynchronously.
 					bcrypt.compare(req.body.password, rows[0].hashed_password, function(err, result) {
 						// Hash compare failed.
 						if(err) {
-							res.send('login error');
+							res.send({success: false, message: 'Login error.'});
 						} else {
 							// Sends back jwt if correct, else sends failed.
 							if(result) {
-								res.send(jwtGen(rows[0].id, req.body.username));
+								res.send({success: true, jwt: jwtGen(rows[0].id, req.body.username)});
 							} else {
-								res.send('login failed');
+								res.send({success: false, message: 'Login failed.'});
 							}
 						}
 					});

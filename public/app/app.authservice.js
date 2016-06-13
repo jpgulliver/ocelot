@@ -50,7 +50,7 @@ angular.module('ocelotApp')
 		
 		return $http.post('api/signin', data)
 		.then(function(response) {
-			if (response.data != 'login failed') {
+			if (response.data.success) {
 				storeUserCredentials(response.data.jwt);
 				return response.data;
 			} else {
@@ -71,7 +71,7 @@ angular.module('ocelotApp')
 		
 		return $http.post('api/signup', data)
 		.then(function(response) {
-			if (response.data != 'signup failed') {
+			if (response.data.success) {
 				storeUserCredentials(response.data.jwt);
 				return response.data;
 			} else {
@@ -88,7 +88,7 @@ angular.module('ocelotApp')
 	var checkEmail = function(v) {
 		return $http.get('api/signup', {params: {type: 'email', value: v}})
 		.then(function(response) {
-			if (response.data == 'ok') {
+			if (response.data.available) {
 				return $q.resolve();
 			} else {
 				return $q.reject();
@@ -101,7 +101,7 @@ angular.module('ocelotApp')
 	var checkUsername = function(v) {
 		return $http.get('api/signup', {params: {type: 'username', value: v}})
 		.then(function(response) {
-			if (response.data == 'ok') {
+			if (response.data.available) {
 				return $q.resolve();
 			} else {
 				return $q.reject();
