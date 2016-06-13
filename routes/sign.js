@@ -29,14 +29,16 @@ router.post('/signup', function(req, res, next) {
 	bcrypt.hash(req.body.password, bcrypt.genSaltSync(), null, function(err, hash) {
 		// Error when hashing.
 		if(err){
+			console.log(err);
 			res.send('signup failed');
 		} else {
 			// Tries to insert into table
 			pool.getConnection(function(err, connection){
-				connection.query("INSERT INTO user (username, password, email, validated) VALUES (?, ?, ?, 0);",
+				connection.query("INSERT INTO ocelot_user (username, hashed_password, email, validated) VALUES (?, ?, ?, 0);",
 						[req.body.username, hash, req.body.email], function(err, rows){
 					// Failed to insert
 					if(err){
+						console.log(err);
 						res.send('signup failed');
 					} else {
 						// Send back authenticated jwt tokent
@@ -55,9 +57,9 @@ router.get('/signup', function(req, res, next) {
 	// Create appropriate query
 	var query;
 	if(req.query.type == "username") {
-		query = "SELECT * FROM user WHERE username = ?;";
+		query = "SELECT * FROM ocelot_user WHERE username = ?;";
 	} else {
-		query = "SELECT * FROM user WHERE email = ?;";
+		query = "SELECT * FROM ocelot_user WHERE email = ?;";
 	}
 	pool.getConnection(function(err, connection){
 		connection.query(query, [req.query.value], function(err, rows){
@@ -80,7 +82,7 @@ router.get('/signup', function(req, res, next) {
 /* POST signin. */
 router.post('/signin', function(req, res, next) {
 	pool.getConnection(function(err, connection){
-		connection.query("SELECT * FROM user WHERE username = ?", [req.body.username],  function(err, rows){
+		connection.query("SELECT * FROM ocelot_user WHERE username = ?", [req.body.username],  function(err, rows){
 			// Signin error from select from database
 			if(err){
 				console.log(err);
@@ -89,7 +91,7 @@ router.post('/signin', function(req, res, next) {
 					res.send('login failed');
 				} else {
 					// Compares password and hash asynchronously.
-					bcrypt.compare(req.body.password, rows[0].password, function(err, result) {
+					bcrypt.compare(req.body.password, rows[0].hashed_password, function(err, result) {
 						// Hash compare failed.
 						if(err) {
 							res.send('login error');
