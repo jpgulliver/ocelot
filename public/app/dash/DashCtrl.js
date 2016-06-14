@@ -2,6 +2,7 @@ angular.module('ocelotApp')
 .controller("DashCtrl", ['$scope', '$state', '$http', '$q', 'AuthService', function($scope, $state, $http, $q, AuthService) {
 	$scope.friends = [];
 	$scope.msg = '';
+	$scope.received = [];
 	var socket = io();
 	
 	$http.get('api/friends').then(function(response) {
@@ -15,6 +16,11 @@ angular.module('ocelotApp')
 	}, function(response) {
 		// something went wrong
 		return $q.reject(response.data);
+	});
+	
+	socket.on('chat message', function(msg){
+		$scope.received.push(msg);
+		$scope.$apply();
 	});
 	
 	$scope.logout = function() {
