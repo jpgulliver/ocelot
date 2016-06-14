@@ -11,6 +11,8 @@ var friends = require('./routes/friends');
 var authentication = require('./routes/authentication');
 
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +32,14 @@ app.use('/api', authentication);
 
 // Requires authentication token.
 app.use('/api', friends);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
