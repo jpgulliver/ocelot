@@ -22,7 +22,7 @@
 	  </ul>
 	</div>
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		<li ng-repeat="text in received">{{text}}</li>
+		<ul ng-repeat="text in received track by $index">{{text}}</ul>
 		<form action="">
 		  <input autocomplete="off" ng-model="msg"/><button ng-click="sendMsg()">Send</button>
 		</form>
